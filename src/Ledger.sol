@@ -4,6 +4,7 @@ pragma solidity ^0.8.19;
 contract Ledger {
     uint256 accountBalance;
     uint256 transactionCount;
+    address public owner;
 
     struct Transaction {
         string name;
@@ -14,7 +15,21 @@ contract Ledger {
 
     mapping(string => uint256) public balances;
 
-    function Debit(string memory transactionPurpose, uint debitAmount) public {
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not authorized");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+        accountBalance = 0;
+        transactionCount = 0;
+    }
+
+    function Debit(
+        string memory transactionPurpose,
+        uint debitAmount
+    ) public onlyOwner {
         transactions.push(Transaction(transactionPurpose, debitAmount));
         accountBalance -= debitAmount;
         transactionCount++;
@@ -23,19 +38,19 @@ contract Ledger {
     function Credit(
         string memory transactionPurpose,
         uint256 creditAmount
-    ) public {
+    ) public onlyOwner {
         transactions.push(Transaction(transactionPurpose, creditAmount));
         accountBalance += creditAmount;
         transactionCount++;
     }
 
-    function getBalance() public view returns (uint256) {
+    function getBalance() public view onlyOwner returns (uint256) {
         return accountBalance;
     }
 
     function getTransactionDetails(
         uint256 index
-    ) public view returns (string memory, uint256) {
+    ) public view onlyOwner returns (string memory, uint256) {
         require(index < transactionCount, "Invalid transaction index");
         Transaction memory txn = transactions[index];
         return (txn.name, txn.amount);
