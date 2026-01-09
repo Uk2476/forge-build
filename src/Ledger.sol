@@ -13,7 +13,7 @@ contract Ledger {
 
     Transaction[] transactions;
 
-    mapping(string => uint256) public balances;
+    mapping(string => uint256) balances;
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not authorized");
