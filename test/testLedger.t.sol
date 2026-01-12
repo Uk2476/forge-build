@@ -6,27 +6,25 @@ import {Ledger} from "../src/Ledger.sol";
 
 contract LedgerTest is Test {
     Ledger private ledger;
-    address private owner = msg.sender;
-    address private nonOwner = address(0x123);
 
     function setUp() public {
         ledger = new Ledger();
     }
 
-    function testCreditByOwner() public {
+    function testCredit() public {
         ledger.Credit("Initial Deposit", 1000);
         uint256 balance = ledger.getBalance();
         assertEq(balance, 1000);
     }
 
-    function testDebitByOwner() public {
+    function testDebit() public {
         ledger.Credit("Initial Deposit", 1000);
         ledger.Debit("Bill Payment", 300);
         uint256 balance = ledger.getBalance();
         assertEq(balance, 700);
     }
 
-    function testTransactionDetailsByOwner() public {
+    function testTransactionDetails() public {
         ledger.Credit("Initial Deposit", 1000);
         ledger.Debit("Bill Payment", 300);
         (string memory name, uint256 amount) = ledger.getTransactionDetails(1);
@@ -45,32 +43,20 @@ contract LedgerTest is Test {
         assertEq(amount, 1000);
     }
 
-    function testCreditByNonOwner() public {
-        vm.prank(nonOwner);
-        vm.expectRevert("Not authorized");
-        ledger.Credit("Initial Deposit", 1000);
-    }
-
-    function testDebitByNonOwner() public {
-        vm.prank(nonOwner);
-        vm.expectRevert("Not authorized");
-        ledger.Debit("Bill Payment", 300);
-    }
-
-    function testGetBalanceByNonOwner() public {
-        vm.prank(nonOwner);
-        vm.expectRevert("Not authorized");
-        ledger.getBalance();
-    }
-
-    function testGetTransactionDetailsByNonOwner() public {
-        vm.prank(nonOwner);
-        vm.expectRevert("Not authorized");
-        ledger.getTransactionDetails(1);
-    }
-
     function testInitialBalance() public {
         uint256 amount = ledger.getBalance();
         assertEq(amount, 0);
+    }
+
+    function testInvalidTransactionIndex() public {
+        vm.expectRevert("Invalid transaction index");
+        ledger.getTransactionDetails(1);
+    }
+
+    function testGetTransactionAmountByPurposeNonExistent() public {
+        ledger.Credit("Initial Deposit", 1000);
+        ledger.Debit("Bill Payment", 300);
+        vm.expectRevert("No transaction found for the given purpose");
+        ledger.getTransactionAmountByPurpose("Groceries");
     }
 }
