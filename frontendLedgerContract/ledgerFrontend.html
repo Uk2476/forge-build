@@ -8,7 +8,41 @@
 </head>
 
 <body>
-
+    <div class="container">
+        <h1>Ledger Smart Contract</h1>
+        <button id="connectButton">Connect Wallet</button>
+        <p id="accountDisplay"></p>
+        <div class="section">
+            <h2>Account Balance</h2>
+            <button id="getBalanceButton">Get Balance</button>
+            <p id="balanceDisplay"></p>
+        </div>
+        <div class="section">
+            <h2>Credit Transaction</h2>
+            <input type="text" id="creditPurpose" placeholder="Transaction Purpose">
+            <input type="number" id="creditAmount" placeholder="Amount">
+            <button id="creditButton">Credit</button>
+        </div>
+        <div class="section">
+            <h2>Debit Transaction</h2>
+            <input type="text" id="debitPurpose" placeholder="Transaction Purpose">
+            <input type="number" id="debitAmount" placeholder="Amount">
+            <button id="debitButton">Debit</button>
+        </div>
+        <div class="section">
+            <h2>Get Transaction Details</h2>
+            <input type="number" id="transactionIndex" placeholder="Transaction Index">
+            <button id="getTransactionButton">Get Transaction</button>
+            <p id="transactionDisplay"></p>
+        </div>
+        <div class="section">
+            <h2>Get Amount by Purpose</h2>
+            <input type="text" id="purposeQuery" placeholder="Transaction Purpose">
+            <button id="getPurposeButton">Get Amount</button>
+            <p id="purposeDisplay"></p>
+        </div>
+        <p id="statusMessage"></p>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
     <script src="ledgerFrontend.js"></script>
 </body>
