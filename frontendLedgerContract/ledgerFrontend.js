@@ -190,7 +190,7 @@ async function creditTransaction() {
         creditPurpose.value = '';
         creditAmount.value = '';
     } catch (error) {
-        showMessage('Error ' + error.message);
+        showMessage('Error ');
     }
 }
 
