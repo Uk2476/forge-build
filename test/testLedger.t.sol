@@ -48,6 +48,13 @@ contract LedgerTest is Test {
         assertEq(amount, 0);
     }
 
+    function testGetBalance()  public {
+        ledger.Credit("Initial Deposit", 1000);
+        ledger.Debit("Bill Payment", 300); 
+        uint256  amount = ledger.getBalance();
+        assertEq(amount , 700);
+    }
+
     function testInvalidTransactionIndex() public {
         vm.expectRevert("Invalid transaction index");
         ledger.getTransactionDetails(1);
