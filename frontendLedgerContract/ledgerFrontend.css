@@ -20,16 +20,16 @@ h2 {
 }
 .section {
     background-color: #f9f9f9;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
     display: inline-block;
-    width: 32%;
+    width: 28%;
     margin-right: 1%;
     vertical-align: top;
 }
 button {
-    background-color: #4CAF50;
+    background-color: burlywood;
     color: white;
     padding: 10px;
     border: none;
@@ -38,19 +38,19 @@ button {
     margin-top: 10px;
 }
 button:hover {
-    background-color: #45a049;
+    background-color: dimgrey;
 }
 #connectButton {
-    background-color: #008CBA;
+    background-color: rgb(104, 49, 33);
     margin-bottom: 20px;
 }
 #connectButton:hover {
-    background-color: #007399;
+    background-color: rgb(2, 74, 26);
 }
 input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    width: 90%;
+    padding: 7px;
+    margin-bottom: 8px;
     border: 1px solid #ccc;
 }
 p {
