@@ -2,16 +2,17 @@
 
 pragma solidity ^0.8.18;
 
-import "./week3studypoint.sol";
+import "./tokens.sol";
 
 contract amm {
     error amm_onlyRecieveOnetime();
     error amm_insufficientBalance() ;
+    error amm_InsufficientLiquidity();
 
     uint256 public initialToken ;
     uint256 reserveSP ;
     uint256 reserveCt ;
-    uint256 liquidityPool ;
+    uint256 public liquidityPool ;
     uint256 CtSwapped ;
 
     StudyPoint public studypoint;
@@ -41,11 +42,22 @@ contract amm {
         if(studypoint.balanceOf(msg.sender) < SpToBeSwappedWithCt){
             revert amm_insufficientBalance() ;
         }
-        CtSwapped = 0 ;
+        liquidityPool = reserveCt * reserveSP ;
         CtSwapped = reserveCt - (liquidityPool/(reserveSP + SpToBeSwappedWithCt)) ;
+        if(CtSwapped==0 || CtSwapped > reserveCt){
+            revert amm_InsufficientLiquidity();
+        }
         reserveSP += SpToBeSwappedWithCt ;
-        reserveCt -= CtSwapped ;
-        canteenToken.mint(CtSwapped);
-        studypoint.burn(SpToBeSwappedWithCt);
+        reserveCt -= CtSwapped ; 
+        studypoint.transferFrom(msg.sender , address (this) , SpToBeSwappedWithCt);
+        canteenToken.transfer(msg.sender , CtSwapped);
+
     }
+
+    function getOutputAmount(uint256 Sptoken) public view returns (uint256 CtOut){
+        uint256 Ctout ;
+        Ctout = reserveCt - ((reserveCt * reserveSP)/(reserveSP + Sptoken)) ;
+        require(Ctout != 0 && Ctout <= reserveCt, "Insufficient liquidity");        return Ctout;
+    }
+
 }
