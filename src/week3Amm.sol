@@ -8,6 +8,7 @@ contract amm {
     error amm_onlyRecieveOnetime();
     error amm_insufficientBalance() ;
     error amm_InsufficientLiquidity();
+    error amm_transactionFAiled();
 
     uint256 public initialToken ;
     uint256 reserveSP ;
@@ -47,17 +48,24 @@ contract amm {
         if(CtSwapped==0 || CtSwapped > reserveCt){
             revert amm_InsufficientLiquidity();
         }
+        bool transaction1 = studypoint.transferFrom(msg.sender , address (this) , SpToBeSwappedWithCt);
+        if (transaction1 == false){
+            revert amm_transactionFAiled();
+        }
+        bool transaction2 = canteenToken.transfer(msg.sender , CtSwapped);
+        if (transaction2 == false){
+            revert amm_transactionFAiled();
+        }
         reserveSP += SpToBeSwappedWithCt ;
         reserveCt -= CtSwapped ; 
-        studypoint.transferFrom(msg.sender , address (this) , SpToBeSwappedWithCt);
-        canteenToken.transfer(msg.sender , CtSwapped);
+
 
     }
 
-    function getOutputAmount(uint256 Sptoken) public view returns (uint256 CtOut){
+    function getOutputAmount(uint256 Sptoken) public view returns (uint256){
         uint256 Ctout ;
         Ctout = reserveCt - ((reserveCt * reserveSP)/(reserveSP + Sptoken)) ;
-        require(Ctout != 0 && Ctout <= reserveCt, "Insufficient liquidity");        return Ctout;
+        require(Ctout != 0 && Ctout <= reserveCt, "Insufficient liquidity");        
+        return Ctout;
     }
-
 }
