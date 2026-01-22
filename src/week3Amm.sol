@@ -42,7 +42,6 @@ contract amm {
         if(CtSwapped==0 || CtSwapped > reserveCt){
             revert amm_InsufficientLiquidity();
         }
-    //first approve the transaction in contract studypoints 
         bool transaction1 = studyPoint.transferFrom(msg.sender , address (this) , SpToBeSwappedWithCt);
         if (transaction1 == false){
             revert amm_transactionFAiled();
