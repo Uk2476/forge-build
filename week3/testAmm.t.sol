@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.18;
 
-import "forge-std/Test.sol";
-import "src/week3Amm.sol";
-import "src/tokens.sol";
-import "script/DeployWeek3Amm.s.sol";
+import "lib/forge-std/src/Test.sol";
+import "./week3Amm.sol";
+import "./tokens.sol";
+import "./DeployWeek3Amm.s.sol";
 
 contract AmmTest is Test {
     amm public Amm;

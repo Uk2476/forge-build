@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.18;
 
-import "src/tokens.sol";
-import "src/week3Amm.sol";
-import {Script,console} from "forge-std/Script.sol";
+import "./tokens.sol";
+import "./week3Amm.sol";
+import {Script,console} from "lib/forge-std/src/Script.sol";
 
 contract DeployAmmScript is Script {
     function run() public returns (amm) {
