@@ -23,9 +23,9 @@ contract amm {
 
     constructor () {
         initialToken = 100 ether ;
-        reserveCt = 15000 ether ;
-        reserveSP = 30000 ether ;
-        studyPoint = new StudyPoint(reserveSP + 10000 ether);
+        reserveCt = 2500 ether ;
+        reserveSP = 4000 ether ;
+        studyPoint = new StudyPoint(reserveSP + 2000 ether);
         canteenToken = new CanteenToken(reserveCt);
     }
 
